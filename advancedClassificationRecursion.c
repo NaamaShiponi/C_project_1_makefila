@@ -31,7 +31,6 @@ int isArmstrongRecur(int a, int pow){
 
 int isArmstrong(int a){
     int len=length(a,0);
-    // printf("%d")
     int sum=isArmstrongRecur(a,len);
     if (a==sum) return 1;
     return 0;

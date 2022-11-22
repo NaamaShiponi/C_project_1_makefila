@@ -22,6 +22,7 @@ int factorial(int a){
 int isStrong(int a){
     int newNum=a;  
     int sum=0;
+    if (a==0) return 0;
     while (newNum>0){
        sum+=factorial(newNum%10);
        newNum=newNum/10;  

@@ -1,8 +1,9 @@
 
 CC=gcc
+ALL_SOURCES=mains maindloop maindrec loops recursives recursivesd loopd
+
 LOOP_SOURCES = basicClassification.o advancedClassificationLoop.o 
 RECURSION_SOURCES = basicClassification.o advancedClassificationRecursion.o
-ALL_SOURCES=mains maindloop maindrec loops recursives recursivesd loopd
 
 
 all: $(ALL_SOURCES)
@@ -32,7 +33,7 @@ libclassrec.a: $(RECURSION_SOURCES)
 recursivesd:libclassrec.so
 
 libclassrec.so: $(RECURSION_SOURCES) 
-	$(CC) -shared -fPIC -o ./libclassrec.so $(RECURSION_SOURCES)
+	$(CC) -shared -fPIC $(RECURSION_SOURCES) -o ./libclassrec.so
 
 
 
@@ -59,4 +60,4 @@ advancedClassificationRecursion.o: advancedClassificationRecursion.c
 .PHONY: clean
 
 clean:
-	rm -f *.a *.o *.so mains maindloop maindrec recursives loopd recursivesd loops
+	rm -f *.a *.o *.so $(ALL_SOURCES) 
