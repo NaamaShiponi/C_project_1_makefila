@@ -1,33 +1,62 @@
 
+CC=gcc
 LOOP_SOURCES = basicClassification.o advancedClassificationLoop.o 
 RECURSION_SOURCES = basicClassification.o advancedClassificationRecursion.o
 
-mains:  main.o recursives
-	gcc -fPIC main.o libclassrec.a -o mains
+all: mains maindloop maindrec recursives loopd recursivesd
 
-loop: $(LOOP_SOURCES) 
+
+mains:  main.o libclassrec.a
+	$(CC) -fPIC main.o libclassrec.a -o mains
+
+maindloop: main.o libclassloops.so
+	$(CC) -fPIC main.o libclassloops.so -o maindloop
+
+maindrec:main.o libclassrec.so
+	$(CC) -fPIC main.o libclassrec.so -o maindrec
+
+
+
+loop: libclassloops.a
+
+libclassloops.a: $(LOOP_SOURCES) 
 	ar rcs libclassloops.a $(LOOP_SOURCES)
 
-recursives: $(RECURSION_SOURCES) 
+
+recursives: libclassrec.a
+
+libclassrec.a: $(RECURSION_SOURCES) 
 	ar rcs libclassrec.a $(RECURSION_SOURCES)
 
-recursivesd: $(RECURSION_SOURCES) 
-	gcc -shared libclassrec.so $(RECURSION_SOURCES)
 
-loopd: $(LOOP_SOURCES) 
-	gcc -shared $(LOOP_SOURCES) -o libclassloops.so
+recursivesd:libclassrec.so
+
+libclassrec.so: $(RECURSION_SOURCES) 
+	$(CC) -shared -o libclassrec.so $(RECURSION_SOURCES)
+
+
+
+loopd: libclassloops.so
+
+libclassloops.so: $(LOOP_SOURCES) 
+	$(CC) -shared $(LOOP_SOURCES) -o libclassloops.so
+
+
 
 main.o: main.c NumClass.h
-	gcc -Wall -c main.c 
+	$(CC) -Wall -c main.c 
 	
 basicClassification.o: basicClassification.c
-	gcc -Wall -c basicClassification.c
+	$(CC) -Wall -c basicClassification.c
 
 advancedClassificationLoop.o: advancedClassificationLoop.c
-	gcc -Wall -c advancedClassificationLoop.c
+	$(CC) -Wall -c advancedClassificationLoop.c
 
 advancedClassificationRecursion.o: advancedClassificationRecursion.c
-	gcc -Wall -c advancedClassificationRecursion.c
+	$(CC) -Wall -c advancedClassificationRecursion.c
 
 
+.PHONY: clean
 
+clean:
+	rm -f *.a *.o *.so mains maindloop maindrec recursives loopd recursivesd loop
