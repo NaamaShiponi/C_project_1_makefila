@@ -1,6 +1,8 @@
 .vscode/
 *.o
 *.a
+*.out
+*.so
 
 maindloop 
 mains 

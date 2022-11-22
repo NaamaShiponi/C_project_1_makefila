@@ -11,10 +11,10 @@ mains:  main.o libclassrec.a
 	$(CC) main.o libclassrec.a -o mains
 
 maindloop: main.o libclassloops.so
-	$(CC) -fPIC main.o libclassloops.so -o maindloop
+	$(CC) -Wall main.o ./libclassloops.so -o maindloop
 
 maindrec:main.o libclassrec.so
-	$(CC) -fPIC main.o libclassrec.so -o maindrec
+	$(CC) main.o ./libclassrec.so -o maindrec
 
 
 loops: libclassloops.a
@@ -32,14 +32,14 @@ libclassrec.a: $(RECURSION_SOURCES)
 recursivesd:libclassrec.so
 
 libclassrec.so: $(RECURSION_SOURCES) 
-	$(CC) -shared -o libclassrec.so $(RECURSION_SOURCES)
+	$(CC) -shared -fPIC -o ./libclassrec.so $(RECURSION_SOURCES)
 
 
 
 loopd: libclassloops.so
 
 libclassloops.so: $(LOOP_SOURCES) 
-	$(CC) -shared $(LOOP_SOURCES) -o libclassloops.so
+	$(CC) -shared -fPIC $(LOOP_SOURCES) -o ./libclassloops.so
 
 
 
