@@ -2,19 +2,19 @@
 CC=gcc
 LOOP_SOURCES = basicClassification.o advancedClassificationLoop.o 
 RECURSION_SOURCES = basicClassification.o advancedClassificationRecursion.o
+ALL_SOURCES=mains maindloop maindrec loops recursives recursivesd loopd
 
-all: mains maindloop maindrec recursives loopd recursivesd loops
 
+all: $(ALL_SOURCES)
 
 mains:  main.o libclassrec.a
-	$(CC) -fPIC main.o libclassrec.a -o mains
+	$(CC) main.o libclassrec.a -o mains
 
 maindloop: main.o libclassloops.so
 	$(CC) -fPIC main.o libclassloops.so -o maindloop
 
 maindrec:main.o libclassrec.so
 	$(CC) -fPIC main.o libclassrec.so -o maindrec
-
 
 
 loops: libclassloops.a
