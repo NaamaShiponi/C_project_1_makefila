@@ -11,6 +11,7 @@ int isPrime(int a){
 
 int factorial(int a){
     int factorial=1;
+    if (a==0) return 1;
        for (int i = 1; i <= a; i++){
         factorial=i*factorial;
        };
