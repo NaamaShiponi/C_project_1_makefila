@@ -21,8 +21,7 @@ int powToNum(int n,int powNum){
 
 int length(int a, int count){
     if (a==0) return count;
-    count+=1;
-    return (count+(length(a/10,count)));
+    return length(a/10,++count);
 };
 
 int isArmstrongRecur(int a, int pow){
@@ -32,8 +31,9 @@ int isArmstrongRecur(int a, int pow){
 
 int isArmstrong(int a){
     int len=length(a,0);
+    // printf("%d")
     int sum=isArmstrongRecur(a,len);
     if (a==sum) return 1;
     return 0;
-};
+}
 
