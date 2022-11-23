@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS = -g -Wall
 AR= ar
 MAIN_OBJFILES=main.o
-ALL_OBJFILES=mains maindloop maindrec loops recursives recursivesd loopd
+ALL_OBJFILES=mains maindloop maindrec loops recursives recursived loopd
 LOOP_OBJFILES = basicClassification.o advancedClassificationLoop.o 
 RECURSION_OBJFILES = basicClassification.o advancedClassificationRecursion.o
 
@@ -32,7 +32,7 @@ libclassrec.a: $(RECURSION_OBJFILES)
 	$(AR) -rcs libclassrec.a $(RECURSION_OBJFILES)
 
 
-recursivesd:libclassrec.so
+recursived:libclassrec.so
 
 libclassrec.so: $(RECURSION_OBJFILES) 
 	$(CC) -shared $(RECURSION_OBJFILES) -o ./libclassrec.so
