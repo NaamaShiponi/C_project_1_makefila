@@ -1,63 +1,65 @@
 
 CC=gcc
-ALL_SOURCES=mains maindloop maindrec loops recursives recursivesd loopd
+CFLAGS = -g -Wall
+AR= ar
+MAIN_OBJFILES=main.o
+ALL_OBJFILES=mains maindloop maindrec loops recursives recursivesd loopd
+LOOP_OBJFILES = basicClassification.o advancedClassificationLoop.o 
+RECURSION_OBJFILES = basicClassification.o advancedClassificationRecursion.o
 
-LOOP_SOURCES = basicClassification.o advancedClassificationLoop.o 
-RECURSION_SOURCES = basicClassification.o advancedClassificationRecursion.o
 
+all: $(ALL_OBJFILES)
 
-all: $(ALL_SOURCES)
+mains:  $(MAIN_OBJFILES) libclassrec.a
+	$(CC) $(MAIN_OBJFILES) libclassrec.a -o mains
 
-mains:  main.o libclassrec.a
-	$(CC) main.o libclassrec.a -o mains
+maindloop: $(MAIN_OBJFILES) libclassloops.so
+	$(CC) $(CFLAGS) $(MAIN_OBJFILES) ./libclassloops.so -o maindloop
 
-maindloop: main.o libclassloops.so
-	$(CC) -Wall main.o ./libclassloops.so -o maindloop
-
-maindrec:main.o libclassrec.so
-	$(CC) main.o ./libclassrec.so -o maindrec
+maindrec:$(MAIN_OBJFILES) libclassrec.so
+	$(CC) $(MAIN_OBJFILES) ./libclassrec.so -o maindrec
 
 
 loops: libclassloops.a
 
-libclassloops.a: $(LOOP_SOURCES) 
-	ar rcs libclassloops.a $(LOOP_SOURCES)
+libclassloops.a: $(LOOP_OBJFILES) 
+	$(AR) -rcs libclassloops.a $(LOOP_OBJFILES)
 
 
 recursives: libclassrec.a
 
-libclassrec.a: $(RECURSION_SOURCES) 
-	ar rcs libclassrec.a $(RECURSION_SOURCES)
+libclassrec.a: $(RECURSION_OBJFILES) 
+	$(AR) -rcs libclassrec.a $(RECURSION_OBJFILES)
 
 
 recursivesd:libclassrec.so
 
-libclassrec.so: $(RECURSION_SOURCES) 
-	$(CC) -shared -fPIC $(RECURSION_SOURCES) -o ./libclassrec.so
+libclassrec.so: $(RECURSION_OBJFILES) 
+	$(CC) -shared $(RECURSION_OBJFILES) -o ./libclassrec.so
 
 
 
 loopd: libclassloops.so
 
-libclassloops.so: $(LOOP_SOURCES) 
-	$(CC) -shared -fPIC $(LOOP_SOURCES) -o ./libclassloops.so
+libclassloops.so: $(LOOP_OBJFILES) 
+	$(CC) -shared $(LOOP_OBJFILES) -o ./libclassloops.so
 
 
 
-main.o: main.c NumClass.h
-	$(CC) -Wall -c main.c 
+$(MAIN_OBJFILES): main.c NumClass.h
+	$(CC) $(CFLAGS) -c main.c 
 	
 basicClassification.o: basicClassification.c
-	$(CC) -Wall -c basicClassification.c
+	$(CC) $(CFLAGS) -fPIC -c basicClassification.c
 
 advancedClassificationLoop.o: advancedClassificationLoop.c
-	$(CC) -Wall -c advancedClassificationLoop.c
+	$(CC) $(CFLAGS) -fPIC -c advancedClassificationLoop.c
 
 advancedClassificationRecursion.o: advancedClassificationRecursion.c
-	$(CC) -Wall -c advancedClassificationRecursion.c
+	$(CC) $(CFLAGS) -fPIC -c advancedClassificationRecursion.c
 
 
 .PHONY: clean
 
 clean:
-	rm -f *.a *.o *.so $(ALL_SOURCES) 
+	rm -f *.a *.o *.so $(ALL_OBJFILES) 
