@@ -5,13 +5,16 @@ int main()
 {
   int num1, num2;
   scanf("%d%d", &num1, &num2);
-
+  
+//Checks that NUM2 is greater than MUN1
   if (num1 > num2)
   {
     int temp = num2;
     num2 = num1;
     num1 = temp;
   }
+
+
   printf("The Armstrong numbers are:");
   for (int i = num1; i <= num2; i++)
   {
